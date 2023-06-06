@@ -4,7 +4,7 @@ output "alias" {
 
 locals {
   alias_prefix = "alias/"
-  key_alias = startswith(var.kms_key_alias_name_prefix, local.alias_prefix) ? var.kms_key_alias_name_prefix : "${local.alias_prefix}${var.kms_key_alias_name_prefix}"
+  key_alias    = startswith(var.kms_key_alias_name_prefix, local.alias_prefix) ? var.kms_key_alias_name_prefix : "${local.alias_prefix}${var.kms_key_alias_name_prefix}"
 
 }
 module "kms" {
