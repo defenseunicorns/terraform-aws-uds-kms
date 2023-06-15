@@ -1,0 +1,93 @@
+component-definition:
+  uuid: 2a544512-b145-48f7-bd91-ad2a97fd03b0
+  metadata:
+    title: Terraform AWS UDS KMS Module
+    last-modified: '2023-06-15T19:02:17Z'
+    version: "20230615"
+    oscal-version: 1.0.0
+    parties:
+    - uuid: f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+      type: organization
+      name: Defense Unicorns
+      links:
+      - href: https://defenseunicorns.com
+        rel: website
+  components:
+  - uuid: d7b12668-fdb0-4ce0-85f7-fcf7ad97d583
+    type: software
+    title: Terraform AWS UDS KMS Module
+    description: |
+      Deployment of KMS Key using Terraform
+    purpose: Provides a secure KMS Key used for cryptography within the system.
+    responsible-roles:
+    - role-id: provider
+      party-uuids:
+      - f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+    control-implementations:
+    - uuid: e393278c-e52d-4671-939e-da8f0c0713a0
+      source: https://raw.githubusercontent.com/usnistgov/oscal-content/master/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+      description:
+        NIST 800-53 Controls implemented.   
+      implemented-requirements:
+      - uuid: 9bf597c9-a32b-4efa-b567-d5c901a6701c
+        control-id: ac-3
+        description: >-
+          Access to KMS Key is managed through KMS Key Policies. https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+      - uuid: ade5e4f2-d329-471a-bf0e-5626a0777bdf
+        control-id: cm-2
+        description: >-
+          Terraform is used to create the baseline configuration and stores the configuration in a state file. https://developer.hashicorp.com/terraform/language/state
+      - uuid: e00a900f-0795-487e-afab-ebe5da68799a
+        control-id: cm-2.2
+        description: >-
+          Terraform is used to create the baseline configuration and stores the configuration in a state file. https://developer.hashicorp.com/terraform/language/state
+      - uuid: 99499eeb-78d4-42ce-ac83-f935f59e6dba
+        control-id: cm-2.3
+        description: >-
+          S3 versioning is enabled on the S3 Bucket where Teraform state is stored. This provides versionsing for rollbacks
+          by restoring the previous versions of the state file. https://developer.hashicorp.com/terraform/language/state
+          https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html
+      - uuid: 05d46028-e84b-449e-bb13-59a56d0c3d40
+        control-id: ia-9
+        description: >-
+          Access to the KMS Key controled by KMS Key Policies. https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+      - uuid: ed08ee56-8aa7-4725-850c-84328d467051
+        control-id: mp-2
+        description: >-
+          Access to the KMS Key controled by KMS Key Policies. https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+      - uuid: e0cb8165-1e0c-4ac2-a099-34a9485efbad
+        control-id: sa-10
+        description: >-
+          Terraform is used to create the baseline configuration and stores the configuration in a state file. https://developer.hashicorp.com/terraform/language/state
+      - uuid: dc0c132b-fe38-41dc-b503-b2c1a06f9f26
+        control-id: sc-12
+        description: >-
+          Encryption is enabled and uses AWS KMS to create and manage cryptographic keys. https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
+      - uuid: 70f51994-5957-4465-9457-d5e39cd4e6ca
+        control-id: sc-12.1
+        description: >-
+          AWS KMS Keys utilzie envlope encryption which prevents the cryptographic key from being exposed outside of the AWS KMS Key service, preventing any loss
+          of Keys. https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-kms.html
+      - uuid: 6fd9609-16f3-4da7-8f17-f5baff867f51
+        control-id: sc-12.2
+        description: >-
+          AWS KMS Customer Master Keys (CMKs) are protected by FIPS-140-2 validated cryptographic modules. https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-kms.html
+      - uuid: db4a423b-5bb7-4f26-ad47-87eca1f5455f
+        control-id: sc-13
+        description: >-
+          AWS KMS Customer Master Keys (CMKs) are protected by FIPS-140-2 validated cryptographic modules. https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-kms.html     
+      - uuid: cf149ca2-bbd3-4834-bd4f-7607b67314f7
+        control-id: sc-28
+        description: >-
+          AWS KMS Customer Master Keys (CMKs) are protected by FIPS-140-2 validated cryptographic modules. AWS KMS Key are used for encryption of various AWS services to ensure
+          encryption at rest. https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-kms.html     
+      - uuid: cf149ca2-bbd3-4834-bd4f-7607b67314f7
+        control-id: sc-28.1
+        description: >-
+          AWS KMS Customer Master Keys (CMKs) are protected by FIPS-140-2 validated cryptographic modules. https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-kms.html
+  back-matter:
+    resources:
+    - uuid: 5da52343-0601-4f49-b47e-a033a56b06d8
+      title: Terraform AWS UDS KMS Module
+      rlinks:
+       - href: https://github.com/defenseunicorns/terraform-aws-uds-kms
