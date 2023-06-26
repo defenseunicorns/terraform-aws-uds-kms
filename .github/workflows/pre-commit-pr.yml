@@ -9,4 +9,3 @@ jobs:
     with:
       soft-fail: true
       github-token: $GITHUB_TOKEN
-name: pre-commit
