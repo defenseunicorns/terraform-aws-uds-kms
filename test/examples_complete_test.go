@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const testDir = "../../examples/complete"
+const testDir = "../examples/complete"
 const kmsKeyAliasOutput = "kms_key_alias"
 const kmsKeyAliasVar = "kms_key_alias_name_prefix"
 const kmsKeyAliasPrefix = "alias/terratest"
