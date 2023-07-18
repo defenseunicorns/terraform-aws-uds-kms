@@ -15,4 +15,4 @@ jobs:
     uses: defenseunicorns/uds-common-workflows/.github/workflows/release-terraform.yml@main
     with:
       command: manifest
-      release-type: terraform-module
+      release-type: simple
