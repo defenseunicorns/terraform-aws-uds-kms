@@ -91,4 +91,4 @@ component-definition:
       - uuid: 5da52343-0601-4f49-b47e-a033a56b06d8
         title: Terraform AWS UDS KMS Module
         rlinks:
-          - href: https://github.com/defenseunicorns/terraform-aws-uds-kms
+          - href: https://github.com/defenseunicorns/terraform-aws-kms
