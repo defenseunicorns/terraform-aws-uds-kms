@@ -20,7 +20,7 @@ go test -count 1 -v .
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.13.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.23.1 |
 
 ## Modules
 
