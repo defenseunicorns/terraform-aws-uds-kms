@@ -20,7 +20,7 @@ go test -count 1 -v .
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.13.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.42.0 |
 
 ## Modules
 
@@ -46,6 +46,8 @@ go test -count 1 -v .
 | <a name="input_kms_key_alias_name_prefix"></a> [kms\_key\_alias\_name\_prefix](#input\_kms\_key\_alias\_name\_prefix) | Prefix for KMS key alias. | `string` | n/a | yes |
 | <a name="input_kms_key_deletion_window"></a> [kms\_key\_deletion\_window](#input\_kms\_key\_deletion\_window) | Waiting period for scheduled KMS Key deletion. Can be 7-30 days. | `number` | `7` | no |
 | <a name="input_kms_key_description"></a> [kms\_key\_description](#input\_kms\_key\_description) | Description for the KMS key. | `string` | `""` | no |
+| <a name="input_kms_key_policy_default_identities"></a> [kms\_key\_policy\_default\_identities](#input\_kms\_key\_policy\_default\_identities) | A list of IAM ARNs for those who will have full key permissions (`kms:*`) | `list(string)` | `[]` | no |
+| <a name="input_kms_key_policy_default_services"></a> [kms\_key\_policy\_default\_services](#input\_kms\_key\_policy\_default\_services) | A list of services that will have full key permissions (`kms:*`) | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
