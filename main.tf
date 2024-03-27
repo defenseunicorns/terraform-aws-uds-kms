@@ -39,9 +39,18 @@ data "aws_iam_policy_document" "kms_access" {
     sid = "KMS Key Default"
     principals {
       type = "AWS"
-      identifiers = [
-        "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"
-      ]
+      identifiers = merge(
+        ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"],
+        var.kms_key_policy_default_identities
+      )
+    }
+
+    dynamic "principals" {
+    for_each = length(var.kms_key_policy_default_services) > 0 ? [1] : []
+      content{
+        type = "Service"
+        identifiers = var.kms_key_policy_default_services
+      }
     }
 
     actions = [

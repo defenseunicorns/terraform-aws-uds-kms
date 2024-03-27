@@ -4,6 +4,18 @@ variable "key_owners" {
   default     = []
 }
 
+variable "kms_key_policy_default_identities" {
+  description = "A list of IAM ARNs for those who will have full key permissions (`kms:*`)"
+  type        = list(string)
+  default     = []
+}
+
+variable "kms_key_policy_default_services" {
+  description = "A list of services that will have full key permissions (`kms:*`)"
+  type        = list(string)
+  default     = []
+}
+
 variable "kms_key_description" {
   description = "Description for the KMS key."
   type        = string
