@@ -9,7 +9,7 @@ go test -count 1 -v .
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
-eric was here
+
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |

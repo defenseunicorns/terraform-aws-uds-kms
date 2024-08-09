@@ -46,23 +46,10 @@ jobs:
       - name: Update Tofu Docs
         uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
         with:
-#          working-dir: ${{ steps.find_readme.outputs.csv_readme }}
           working-dir: .
           output-method: inject
           git-push: false
           fail-on-diff: true
-
-      - name: Check for changed files
-        run: |
-          cat README.md
-
-          if [ -z "$(git status -s README.md)" ]; then
-              echo "Success!"
-              exit 0
-          else
-              git diff README.md
-              exit 1
-          fi
 
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@19a52fbac37dacb22a09518e4ef6ee234f2d4987 # v4.0.0
