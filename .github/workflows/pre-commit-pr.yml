@@ -1,4 +1,3 @@
----
 name: Scan Terraform
 on:
   push:
