@@ -17,6 +17,9 @@ on:
       - ".github/**"
       - "README.md"
 
+permissions:
+  contents: read
+
 jobs:
   tflint:
     runs-on: ubuntu-latest
@@ -59,7 +62,7 @@ jobs:
         run: tflint --init
         env:
           # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
-          GITHUB_TOKEN: $GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
       - name: Run TFLint
         run: tflint -f compact --recursive
@@ -74,7 +77,7 @@ jobs:
       - name: tfsec
         uses: aquasecurity/tfsec-action@b466648d6e39e7c75324f25d83891162a721f2d6 # v1.0.3
         with:
-          github_token: $GITHUB_TOKEN
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
           soft_fail: true
 
   regula:
