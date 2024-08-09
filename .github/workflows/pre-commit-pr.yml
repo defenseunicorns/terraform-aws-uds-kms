@@ -1,11 +1,107 @@
----
-name: Scan Terraform
+name: Scan
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
+    paths:
+      - "**.tf"
+      - "**.go"
+      - ".github/**"
+      - "README.md"
+
+permissions:
+  contents: read
 
 jobs:
-  scan-terraform:
-    uses: defenseunicorns/uds-common-workflows/.github/workflows/terraform-scan.yaml@main
-    with:
-      soft-fail: true
-      github-token: $GITHUB_TOKEN
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # v1.0.3    
+        with:
+          # renovate: datasource=github-tags depName=opentofu/opentofu versioning=semver
+          tofu_version: 1.6.3
+
+      - name: tofu init
+        run: tofu init
+
+      - name: tofu validate
+        run: tofu validate
+
+      - name: tofu fmt
+        run: tofu fmt -recursive
+
+      - name: Update Tofu Docs
+        uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
+        with:
+          working-dir: .
+          output-method: inject
+          git-push: false
+          fail-on-diff: true
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@19a52fbac37dacb22a09518e4ef6ee234f2d4987 # v4.0.0
+        with:
+          # renovate: datasource=github-tags depName=terraform-linters/tflint versioning=semver
+          tflint_version: v0.46.1
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+      - name: Run TFLint
+        run: tflint -f compact --recursive
+
+  tfsec-scan:
+    needs: [tflint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@b466648d6e39e7c75324f25d83891162a721f2d6 # v1.0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          soft_fail: true
+
+  regula:
+    needs: [tflint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: List Directories
+        run: ls -lsa
+
+      - name: Scan with Regula
+        uses: fugue/regula-action@e47ae38fae32dccedc5ef814acdb2081eb2a351d # v3.2.1
+        with:
+          input_path: .
+          input_type: tf
+          severity: high
+
+  lintgo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@aaa42aa0628b4ae2578232a66b541047968fac86 # v6.1.0
