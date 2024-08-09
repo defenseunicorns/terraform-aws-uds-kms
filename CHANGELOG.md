@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.4 (2024-08-09)
+
+## What's Changed
+* Bump google.golang.org/grpc from 1.53.0 to 1.56.3 by @dependabot in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/14
+* chore: configure renovate by @ericwyles in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/21
+* feat: allow for the creation of external keys by @Racer159 in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/20
+
+## New Contributors
+* @ericwyles made their first contribution in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/21
+* @Racer159 made their first contribution in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/20
+
+**Full Changelog**: https://github.com/defenseunicorns/terraform-aws-uds-kms/compare/v0.0.3...v0.0.4
+
 ## 0.0.3 (2024-03-27)
 
 ## What's Changed
