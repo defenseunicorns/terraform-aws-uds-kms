@@ -54,7 +54,6 @@ jobs:
           fails-on-diff: true
 
       - name: Check for changed files
-        shell: bash
         run: |
           set -euo pipefail
 
