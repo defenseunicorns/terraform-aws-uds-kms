@@ -38,3 +38,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "kms_external_key" {
+  description = "Whether to create an external key for importing key material"
+  type        = bool
+  default     = false
+}

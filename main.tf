@@ -18,6 +18,7 @@ module "kms" {
   multi_region            = true
   key_owners              = var.key_owners
   tags                    = var.tags
+  create_external         = var.kms_external_key
 }
 
 resource "aws_kms_alias" "default" {
