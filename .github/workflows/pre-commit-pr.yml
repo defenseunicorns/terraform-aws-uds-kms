@@ -54,6 +54,8 @@ jobs:
 
       - name: Check for changed files
         run: |
+          cat README.md
+          
           if [ -z "$(git status -s README.md)" ]; then
               echo "Success!"
               exit 0

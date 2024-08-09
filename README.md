@@ -8,9 +8,8 @@ go test -count 1 -v .
 ```
 
 <!-- BEGIN_TF_DOCS -->
-ewyles
 ## Requirements
-
+eric was here
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
@@ -21,7 +20,7 @@ ewyles
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.42.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.62.0 |
 
 ## Modules
 
