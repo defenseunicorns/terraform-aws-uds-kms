@@ -40,7 +40,20 @@ jobs:
           # 1800 seconds == 30 minutes
           role-duration-seconds: 1800
 
-      - name: Run Shared Test workfow
-        uses: defenseunicorns/uds-common-workflows/.github/actions/terraform-test@main
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Setup Go from go.mod
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
-          test_retry: 1
+          go-version-file: ./test/go.mod
+
+      - name: Install Go Dependencies
+        shell: bash
+        working-directory: test
+        run: go mod tidy
+
+      - name: Test with terratest
+        shell: bash
+        working-directory: test
+        run: go test -count 1 -timeout 30m -v .
