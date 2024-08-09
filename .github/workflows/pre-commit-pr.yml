@@ -1,6 +1,21 @@
 name: Scan Terraform
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
+    paths:
+      - "**.tf"
+      - "**.go"
+      - ".github/**"
+      - "README.md"
 
 jobs:
   tflint:
@@ -22,26 +37,6 @@ jobs:
 
       - name: tofu fmt
         run: tofu fmt -recursive
-
-      # - name: Set Diff Readme recursive
-      #   id: find_readme
-      #   run: |
-      #     # Stash a list of all readmes found and their sha
-      #     readme_list=$(find . -print|grep -v '.git'|grep -v .terraform|grep -v .config|grep README.md)
-      #     echo README_LIST=$readme_list >> $GITHUB_ENV
-      #     csv_found=''
-      #     for readme in $readme_list; do
-      #       # Finds only the Readme with .tf in the dir.
-      #       directory_check=${readme:0:-9}
-      #       has_tf=$(ls $directory_check | grep .tf | wc -l)
-      #       if [ $has_tf -ge 0 ]; then
-      #         echo "Readme found: $readme"
-      #         csv_found+="$directory_check,"
-      #       fi
-      #     done;
-      #     # removes final comma
-      #     for j in ${csv_found[@]}; do echo "folder, $j"; done;
-      #     echo "csv_readme=${csv_found%,}" >> $GITHUB_OUTPUT
 
       - name: Update Tofu Docs
         uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
@@ -98,3 +93,9 @@ jobs:
           input_path: .
           input_type: tf
           severity: high
+
+  lintgo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: lint-go
+        run: make lint-go
