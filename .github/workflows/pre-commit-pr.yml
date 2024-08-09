@@ -1,4 +1,4 @@
-name: Scan Terraform
+name: Scan
 on:
   push:
     branches:
