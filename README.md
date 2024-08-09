@@ -43,6 +43,7 @@ go test -count 1 -v .
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_key_owners"></a> [key\_owners](#input\_key\_owners) | A list of IAM ARNs for those who will have full key permissions (`kms:*`) | `list(string)` | `[]` | no |
+| <a name="input_kms_external_key"></a> [kms\_external\_key](#input\_kms\_external\_key) | Whether to create an external key for importing key material | `bool` | `false` | no |
 | <a name="input_kms_key_alias_name_prefix"></a> [kms\_key\_alias\_name\_prefix](#input\_kms\_key\_alias\_name\_prefix) | Prefix for KMS key alias. | `string` | n/a | yes |
 | <a name="input_kms_key_deletion_window"></a> [kms\_key\_deletion\_window](#input\_kms\_key\_deletion\_window) | Waiting period for scheduled KMS Key deletion. Can be 7-30 days. | `number` | `7` | no |
 | <a name="input_kms_key_description"></a> [kms\_key\_description](#input\_kms\_key\_description) | Description for the KMS key. | `string` | `""` | no |
