@@ -1,0 +1,21 @@
+{
+    "enabled": true,
+    "forkProcessing": "enabled",
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "github>defenseunicorns/uds-common//config/renovate.json5",
+      ":semanticPrefixFixDepsChoreOthers",
+      "config:base",
+      "group:all",
+      "replacements:all",
+      "workarounds:all"
+    ],
+    "packageRules": [
+      {
+        "matchManagers": ["terraform"],
+        "matchDepTypes": ["module"],
+        "matchDatasources": ["github-tags", "git-tags"],
+        "versioning": "loose"
+      }
+    ]
+  }

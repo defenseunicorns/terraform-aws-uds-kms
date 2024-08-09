@@ -63,7 +63,7 @@ _test-all: _create-folders
 		${BUILD_HARNESS_REPO}:${BUILD_HARNESS_VERSION} \
 		bash -c 'git config --global --add safe.directory /app \
 			&& asdf install && cd examples/complete \
-			&& terraform init -upgrade=true \
+			&& tofu init -upgrade=true \
 			&& cd ../../test/e2e \
 			&& go test -count 1 -v $(EXTRA_TEST_ARGS) .'
 
