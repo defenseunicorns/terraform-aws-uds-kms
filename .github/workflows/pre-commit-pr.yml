@@ -30,7 +30,7 @@ jobs:
       - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # v1.0.3    
         with:
           # renovate: datasource=github-tags depName=opentofu/opentofu versioning=semver
-          tofu_version: 1.6.3
+          tofu_version: 1.8.1
 
       - name: tofu init
         run: tofu init
@@ -53,7 +53,7 @@ jobs:
         uses: terraform-linters/setup-tflint@19a52fbac37dacb22a09518e4ef6ee234f2d4987 # v4.0.0
         with:
           # renovate: datasource=github-tags depName=terraform-linters/tflint versioning=semver
-          tflint_version: v0.46.1
+          tflint_version: v0.52.0
 
       - name: Show version
         run: tflint --version
