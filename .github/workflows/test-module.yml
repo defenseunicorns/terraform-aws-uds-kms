@@ -48,12 +48,9 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Install Go Dependencies
+      - name: Install Go Dependencies and Test
         shell: bash
         working-directory: test
-        run: go mod tidy
-
-      - name: Test with terratest
-        shell: bash
-        working-directory: test
-        run: go test -count 1 -timeout 30m -v .
+        run: |
+          go mod tidy
+          go test -count 1 -timeout 30m -v .
