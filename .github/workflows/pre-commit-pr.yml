@@ -4,8 +4,160 @@ on:
   push:
 
 jobs:
-  scan-terraform:
-    uses: defenseunicorns/uds-common-workflows/.github/workflows/terraform-scan.yaml@main
-    with:
-      soft-fail: true
-      github-token: $GITHUB_TOKEN
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # v1.0.3    
+        with:
+          # renovate: datasource=github-tags depName=opentofu/opentofu versioning=semver
+          tofu_version: 1.6.3
+
+      - name: tofu init
+        run: tofu init
+
+      - name: tofu validate
+        run: tofu validate
+
+      - name: tofu fmt
+        run: tofu fmt -recursive
+
+      - name: Set Diff Readme recursive
+        id: find_readme
+        run: |
+          # Stash a list of all readmes found and their sha
+          readme_list=$(find . -print|grep -v '.git'|grep -v .terraform|grep -v .config|grep README.md)
+          csv_found=''
+          for readme in $readme_list; do
+            # Finds only the Readme with .tf in the dir.
+            directory_check=${readme:0:-9}
+            has_tf=$(ls $directory_check | grep .tf | wc -l)
+            if [ $has_tf -ge 0 ]; then
+              echo "Readme found: $readme"
+              csv_found+="$directory_check,"
+            fi
+          done;
+          # removes final comma
+          for j in ${csv_found[@]}; do echo "folder, $j"; done;
+          echo "csv_readme=${csv_found%,}" >> $GITHUB_OUTPUT
+
+      - name: Update Tofu Docs
+        uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
+        with:
+          working-dir: ${{ steps.find_readme.outputs.csv_readme }}
+          output-method: inject
+          git-push: false
+          fails-on-diff: true
+
+        # Use the GraphQL API to commit changes, so we get automatic commit signing
+        # The REST contents API can't be used as easily because it only supports making single file commits
+      - name: Commit updated files
+        shell: bash
+        env:
+          GITHUB_TOKEN: $GITHUB_TOKEN
+        run: |
+          set -euo pipefail
+
+          additions=()
+          removed=()
+          while IFS= read -r -d $'\0' status_line; do
+              filename="${status_line:3}"
+              git_status="${status_line:0:2}"
+
+              if [ "$git_status" = "D " ]; then
+                  removed+=("$filename")
+              else
+                  additions+=("$filename")
+              fi
+          done < <(git status --porcelain=v1 -z)
+
+          if [ "${#additions[@]}" -eq 0 ] ; then
+            echo "No files updated, skipping commit"
+            exit 0
+          fi
+
+          commitMessage="chore: tofu README update and fmt"
+
+          # for now, we ignore $removed files, but they could be handled similarly (it's just harder to send two lists of positional input files into jq)
+          # jq's iteration over inputs will skip over files with 0 lines (empty files)
+
+          jq \
+            --null-input \
+            --raw-input \
+            --arg repositoryNameWithOwner "$GITHUB_REPOSITORY" \
+            --arg branchName "$GITHUB_REF_NAME" \
+            --arg expectedHeadOid "$GITHUB_SHA" \
+            --arg commitMessage "$commitMessage" \
+            '
+          {
+            "query": "mutation ($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { url } } }",
+            "variables": {
+              "input": {
+                "branch": {
+                  "repositoryNameWithOwner": $repositoryNameWithOwner,
+                  "branchName": $branchName
+                },
+                "message": {
+                  "headline": $commitMessage
+                },
+                "fileChanges": {
+                  "additions": [reduce inputs as $line ({}; .[input_filename] += [$line]) | map_values(join("\n")) | to_entries[] | {path: .key, contents: .value | @base64}]
+                },
+                "expectedHeadOid": $expectedHeadOid
+              }
+            }
+          }' "${additions[@]}" | curl https://api.github.com/graphql \
+            --silent \
+            --fail-with-body \
+            --oauth2-bearer "$(gh auth token)" \
+            --data @-
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@19a52fbac37dacb22a09518e4ef6ee234f2d4987 # v4.0.0
+        with:
+          # renovate: datasource=github-tags depName=terraform-linters/tflint versioning=semver
+          tflint_version: v0.46.1
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+          GITHUB_TOKEN: $GITHUB_TOKEN
+
+      - name: Run TFLint
+        run: tflint -f compact --recursive
+
+  tfsec-scan:
+    needs: [tflint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@b466648d6e39e7c75324f25d83891162a721f2d6 # v1.0.3
+        with:
+          github_token: $GITHUB_TOKEN
+          soft_fail: true
+
+  regula:
+    needs: [tflint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: List Directories
+        run: ls -lsa
+
+      - name: Scan with Regula
+        uses: fugue/regula-action@e47ae38fae32dccedc5ef814acdb2081eb2a351d # v3.2.1
+        with:
+          input_path: .
+          input_type: tf
+          severity: high
