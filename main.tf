@@ -19,6 +19,7 @@ module "kms" {
   key_owners              = var.key_owners
   tags                    = var.tags
   create_external         = var.kms_external_key
+  key_usage               = var.key_usage
 }
 
 resource "aws_kms_alias" "default" {

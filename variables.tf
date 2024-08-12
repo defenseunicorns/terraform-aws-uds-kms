@@ -44,3 +44,8 @@ variable "kms_external_key" {
   type        = bool
   default     = false
 }
+
+variable "kms_key_usage" {
+  description = "What the key is intended to be used for (ENCRYPT_DECRYPT or SIGN_VERIFY. Defaults to ENCRYPT_DECRYPT)"
+  type        = string
+}
