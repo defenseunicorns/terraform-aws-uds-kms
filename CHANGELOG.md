@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.5 (2024-08-13)
+
+## What's Changed
+* fix(deps): update all dependencies by @renovate in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/26
+* feat: add key usage to the exposed variables by @Racer159 in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/29
+
+## New Contributors
+* @renovate made their first contribution in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/26
+
+**Full Changelog**: https://github.com/defenseunicorns/terraform-aws-uds-kms/compare/v0.0.4...v0.0.5
+
 ## 0.0.4 (2024-08-09)
 
 ## What's Changed
