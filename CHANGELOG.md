@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 (2024-08-21)
+
+## What's Changed
+* feat: add key spec as a variable by @Racer159 in https://github.com/defenseunicorns/terraform-aws-uds-kms/pull/31
+
+
+**Full Changelog**: https://github.com/defenseunicorns/terraform-aws-uds-kms/compare/v0.0.5...v0.0.6
+
 ## 0.0.5 (2024-08-13)
 
 ## What's Changed
