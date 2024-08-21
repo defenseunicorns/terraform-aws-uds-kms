@@ -50,3 +50,9 @@ variable "kms_key_usage" {
   type        = string
   default     = "ENCRYPT_DECRYPT"
 }
+
+variable "kms_key_spec" {
+  description = "The key material specification (i.e. SYMMETRIC_DEFAULT)"
+  type        = string
+  default     = "SYMMETRIC_DEFAULT"
+}
