@@ -11,15 +11,16 @@ module "kms" {
   source  = "terraform-aws-modules/kms/aws"
   version = "3.1.0"
 
-  description             = var.kms_key_description
-  deletion_window_in_days = var.kms_key_deletion_window
-  enable_key_rotation     = true
-  policy                  = data.aws_iam_policy_document.kms_access.json
-  multi_region            = true
-  key_owners              = var.key_owners
-  tags                    = var.tags
-  create_external         = var.kms_external_key
-  key_usage               = var.kms_key_usage
+  description              = var.kms_key_description
+  deletion_window_in_days  = var.kms_key_deletion_window
+  enable_key_rotation      = true
+  policy                   = data.aws_iam_policy_document.kms_access.json
+  multi_region             = true
+  key_owners               = var.key_owners
+  tags                     = var.tags
+  create_external          = var.kms_external_key
+  key_usage                = var.kms_key_usage
+  customer_master_key_spec = var.kms_key_spec
 }
 
 resource "aws_kms_alias" "default" {

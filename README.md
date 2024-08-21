@@ -20,7 +20,7 @@ go test -count 1 -v .
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.62.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.63.1 |
 
 ## Modules
 
@@ -49,6 +49,7 @@ go test -count 1 -v .
 | <a name="input_kms_key_description"></a> [kms\_key\_description](#input\_kms\_key\_description) | Description for the KMS key. | `string` | `""` | no |
 | <a name="input_kms_key_policy_default_identities"></a> [kms\_key\_policy\_default\_identities](#input\_kms\_key\_policy\_default\_identities) | A list of IAM ARNs for those who will have full key permissions (`kms:*`) | `list(string)` | `[]` | no |
 | <a name="input_kms_key_policy_default_services"></a> [kms\_key\_policy\_default\_services](#input\_kms\_key\_policy\_default\_services) | A list of services that will have full key permissions (`kms:*`) | `list(string)` | `[]` | no |
+| <a name="input_kms_key_spec"></a> [kms\_key\_spec](#input\_kms\_key\_spec) | The key material specification (i.e. SYMMETRIC\_DEFAULT) | `string` | `"SYMMETRIC_DEFAULT"` | no |
 | <a name="input_kms_key_usage"></a> [kms\_key\_usage](#input\_kms\_key\_usage) | What the key is intended to be used for (ENCRYPT\_DECRYPT or SIGN\_VERIFY) | `string` | `"ENCRYPT_DECRYPT"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
