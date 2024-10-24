@@ -25,12 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # v1.0.3    
+      - uses: opentofu/setup-opentofu@12f4debbf681675350b6cd1f0ff8ecfbda62027b # v1.0.4    
         with:
           # renovate: datasource=github-tags depName=opentofu/opentofu versioning=semver
-          tofu_version: 1.8.1
+          tofu_version: 1.8.4
 
       - name: tofu init
         run: tofu init
@@ -42,7 +42,7 @@ jobs:
         run: tofu fmt -recursive
 
       - name: Update Tofu Docs
-        uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
+        uses: terraform-docs/gh-actions@aeae0038ed47a547e0c0fca5c059d3335f48fb25 # v1.3.0
         with:
           working-dir: .
           output-method: inject
@@ -53,7 +53,7 @@ jobs:
         uses: terraform-linters/setup-tflint@19a52fbac37dacb22a09518e4ef6ee234f2d4987 # v4.0.0
         with:
           # renovate: datasource=github-tags depName=terraform-linters/tflint versioning=semver
-          tflint_version: v0.52.0
+          tflint_version: v0.53.0
 
       - name: Show version
         run: tflint --version
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: tfsec
         uses: aquasecurity/tfsec-action@b466648d6e39e7c75324f25d83891162a721f2d6 # v1.0.3
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: List Directories
         run: ls -lsa
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@aaa42aa0628b4ae2578232a66b541047968fac86 # v6.1.0
+        uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
