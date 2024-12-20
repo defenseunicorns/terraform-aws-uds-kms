@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "kms_access" {
   # checkov:skip=CKV_AWS_111: todo reduce perms on key
   # checkov:skip=CKV_AWS_109: todo be more specific with resources
   statement {
-    sid = "KMS Key Default"
+    sid = "KMSKeyDefault"
     principals {
       type = "AWS"
       identifiers = concat(
@@ -79,7 +79,7 @@ data "aws_iam_policy_document" "kms_access" {
     resources = ["*"]
   }
   statement {
-    sid = "Cloudtrail KMS permissions"
+    sid = "CloudtrailKMSpermissions"
     principals {
       type = "Service"
       identifiers = [
