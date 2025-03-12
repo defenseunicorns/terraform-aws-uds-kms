@@ -9,7 +9,7 @@ locals {
 }
 module "kms" {
   source  = "terraform-aws-modules/kms/aws"
-  version = "3.1.0"
+  version = "3.1.1"
 
   description              = var.kms_key_description
   deletion_window_in_days  = var.kms_key_deletion_window
